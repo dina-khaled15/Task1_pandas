@@ -1,0 +1,21 @@
+customer_id,name,email,city,signup_date
+1,Ahmed Ali,ahmed@gmail.com,Cairo,2023-01-10
+2,Mona Hassan,,alexandria,2023-02-15
+3,John Smith,john@gmail.com,GIZA,2023-03-01
+4,Sara Adel,sara@gmail.com,cairo,2023-04-20
+5,Omar Khaled,omar@gmail.com,Cairo,2023-05-11
+6,Nour Adel,,Giza,2023-06-01
+7,Youssef Samy,youssef@gmail.com,CAIRO,2023-06-15
+8,Laila Mahmoud,laila@gmail.com,Alexandria,2023-07-01
+9,Hassan Mostafa,hassan@gmail.com,giza,2023-07-10
+10,Mai Ahmed,mai@gmail.com,Cairo,2023-08-01
+11,Ahmed Ali,ahmed@gmail.com,Cairo,2023-01-10
+12,Rana Saeed,,alexandria,2023-08-15
+13,Tarek Fathy,tarek@gmail.com,GIZA,2023-09-01
+14,Salma Nabil,salma@gmail.com,cairo,2023-09-10
+15,Karim Adel,karim@gmail.com,Cairo,2023-09-20
+16,Noha Samir,,Giza,2023-10-01
+17,Mostafa Amin,mostafa@gmail.com,CAIRO,2023-10-15
+18,Heba Yasser,heba@gmail.com,Alexandria,2023-11-01
+19,Ali Reda,ali@gmail.com,giza,2023-11-10
+20,Dina Ashraf,dina@gmail.com,Cairo,2023-12-01

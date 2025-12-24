@@ -1,0 +1,20 @@
+customer_id,name,email,city,signup_date,order_id,order_date,total_amount,payment_id,payment_method,payment_status
+1,Ahmed Ali,ahmed@gmail.com,cairo,2023-01-10,101,2023-05-01,1000.0,9001,Card,PAID
+2,Mona Hassan,ddd@gmail.com,alexandria,2023-02-15,102,2023-05-03,850.0,9002,Cash,PAID
+3,John Smith,john@gmail.com,giza,2023-03-01,103,2023-05-05,1200.0,9003,Card,FAILED
+3,John Smith,john@gmail.com,giza,2023-03-01,103,2023-05-05,1200.0,9004,Card,FAILED
+4,Sara Adel,sara@gmail.com,cairo,2023-04-20,104,2023-05-07,500.0,9005,Cash,PAID
+5,Omar Khaled,omar@gmail.com,cairo,2023-05-11,105,2023-05-10,700.0,9006,Card,PAID
+6,Nour Adel,ddd@gmail.com,giza,2023-06-01,106,2023-05-12,400.0,9007,Card,PAID
+7,Youssef Samy,youssef@gmail.com,cairo,2023-06-15,107,2023-05-15,950.0,9008,Cash,FAILED
+8,Laila Mahmoud,laila@gmail.com,alexandria,2023-07-01,108,2023-05-18,1100.0,9009,Card,PAID
+9,Hassan Mostafa,hassan@gmail.com,giza,2023-07-10,109,2023-05-20,300.0,9010,Card,PAID
+10,Mai Ahmed,mai@gmail.com,cairo,2023-08-01,110,2023-05-22,650.0,9011,Cash,PAID
+11,Ahmed Ali,ahmed@gmail.com,cairo,2023-01-10,111,2023-05-25,1000.0,9012,Card,PAID
+12,Rana Saeed,ddd@gmail.com,alexandria,2023-08-15,112,2023-05-27,800.0,9013,Cash,FAILED
+13,Tarek Fathy,tarek@gmail.com,giza,2023-09-01,113,2023-05-29,1200.0,9014,Card,PAID
+14,Salma Nabil,salma@gmail.com,cairo,2023-09-10,114,2023-06-01,500.0,9015,Cash,PAID
+15,Karim Adel,karim@gmail.com,cairo,2023-09-20,115,2023-06-03,750.0,9016,Card,PAID
+16,Noha Samir,ddd@gmail.com,giza,2023-10-01,116,2023-06-05,900.0,9017,Card,FAILED
+17,Mostafa Amin,mostafa@gmail.com,cairo,2023-10-15,117,2023-06-07,600.0,9018,Cash,PAID
+18,Heba Yasser,heba@gmail.com,alexandria,2023-11-01,118,2023-06-10,1300.0,9019,Card,PAID
