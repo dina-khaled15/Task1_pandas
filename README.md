@@ -41,32 +41,26 @@ The project expects three CSV files:
 ## Data Cleaning Steps
 
 ### Customers Data
-- Remove duplicate customer records
-- Fill missing email addresses with default value `no-email@example.com`
-- Standardize city names (trim whitespace, capitalize properly)
-- Convert signup_date to datetime format
+- Convert signup_date to datetime format using `pd.to_datetime()`
+- Fill missing email addresses with default value `ddd@gmail.com`
+- Standardize city names to lowercase for consistency
 
 ### Orders Data
 - Convert order_date to datetime format
-- Extract and convert total_amount to float (handles currency symbols and formatting)
-- Filter out orders with invalid customer_id references
+- Extract numeric values from total_amount by removing 'EGP' prefix and converting to float
+- Filter orders using inner join to keep only records with valid customer_id
 
 ### Payments Data
-- Standardize payment_status values (lowercase, trim whitespace)
-- Remove duplicate payment records
-- Keep only payments with valid order_id references
+- Standardize payment_status values to uppercase
+- Remove duplicate payment records based on payment_id (keeping last occurrence)
+- Filter payments using inner join to keep only records with valid order_id
 
 ### Data Integration
-- Merge customers with orders (left join on customer_id)
-- Merge result with payments (left join on order_id)
-- Export final dataset to `cleaned_data.csv`
+- First merge: Join customers with cleaned orders (inner join on customer_id)
+- Second merge: Join result with cleaned payments (inner join on order_id)
+- Export final dataset to `full_dataset.csv`
 
-## Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/data-cleaning-project.git
-cd data-cleaning-project
 
 # Install required packages
 pip install pandas numpy
@@ -89,11 +83,12 @@ The script will:
 
 ## Output
 
-The cleaned dataset includes all fields from the three original datasets with:
-- No duplicate records
-- Standardized formats
-- Valid relationships between tables
-- Proper data types for all columns
+The cleaned dataset (`full_dataset.csv`) includes all fields from the three original datasets with:
+- No duplicate payment records
+- Standardized formats (lowercase cities, uppercase payment status)
+- Only valid relationships between tables (inner joins ensure data integrity)
+- Proper data types for date and numeric columns
+- Currency values cleaned and converted to float
 
 ## Dependencies
 
@@ -106,12 +101,12 @@ The cleaned dataset includes all fields from the three original datasets with:
 ```
 data-cleaning-project/
 │
-├── clean_data.py          # Main cleaning script
+├── task.py          # Main cleaning script
 ├── customers.csv          # Customer data (input)
 ├── orders.csv             # Order data (input)
 ├── payments.csv           # Payment data (input)
-├── full_dataset.csv       # Final output
-└── README.md             # This file
+├── full_dataset.csv       # Final cleaned output
+└── README.md              # This file
 ```
 
 ## Example Code Snippet
@@ -120,35 +115,52 @@ data-cleaning-project/
 import pandas as pd
 
 # Load data
-customers = pd.read_csv('customers.csv')
-orders = pd.read_csv('orders.csv')
-payments = pd.read_csv('payments.csv')
+data_customer = pd.read_csv('customers.csv')
+data_orders = pd.read_csv('orders.csv')
+data_payments = pd.read_csv('payments.csv')
 
-# Clean customers
-customers = customers.drop_duplicates()
-customers['email'] = customers['email'].fillna('no-email@example.com')
-customers['city'] = customers['city'].str.strip().str.title()
-customers['signup_date'] = pd.to_datetime(customers['signup_date'])
+# Clean customers data
+data_customer['signup_date'] = pd.to_datetime(data_customer['signup_date'])
+data_customer.fillna({'email': "ddd@gmail.com"}, inplace=True)
+data_customer['city'] = data_customer['city'].str.lower()
 
-# Merge datasets
-final_df = customers.merge(orders, on='customer_id', how='left')
-final_df = final_df.merge(payments, on='order_id', how='left')
+# Clean orders data
+data_orders['order_date'] = pd.to_datetime(data_orders['order_date'])
+data_orders['total_amount'] = (data_orders['total_amount']
+    .str.replace('EGP', '', regex=False)
+    .str.strip()
+    .astype(float))
 
-# Export
-final_df.to_csv('cleaned_data.csv', index=False)
+# Filter orders with valid customer_id
+new_orders = pd.merge(data_orders, data_customer[['customer_id']], 
+                      on='customer_id', how='inner')
+
+# Clean payments data
+data_payments['payment_status'] = data_payments['payment_status'].str.upper()
+new_payments = data_payments.drop_duplicates(subset='payment_id', keep='last')
+
+# Filter payments with valid order_id
+new_payments_2 = pd.merge(new_payments, new_orders[['order_id']], 
+                          on='order_id', how='inner')
+
+# Merge all datasets
+temp_df = pd.merge(data_customer, new_orders, on='customer_id', how='inner')
+full_dataset = pd.merge(temp_df, new_payments_2, on='order_id', how='inner')
+
+# Export final dataset
+full_dataset.to_csv('full_dataset.csv', index=False)
 ```
 
 ## Data Quality Improvements
 
 | Issue | Solution |
 |-------|----------|
-| Duplicate records | `drop_duplicates()` |
-| Missing emails | Filled with default value |
-| Inconsistent city names | Trimmed and title-cased |
-| String dates | Converted to datetime |
-| Currency formatting | Extracted numeric values |
-| Invalid references | Filtered using valid IDs |
-| Inconsistent status values | Lowercased and trimmed |
-
-
+| Missing emails | Filled with `ddd@gmail.com` |
+| Inconsistent city names | Converted to lowercase |
+| String dates | Converted to datetime using `pd.to_datetime()` |
+| Currency formatting (EGP) | Removed prefix and converted to float |
+| Invalid customer references | Inner join with customer_id |
+| Duplicate payments | Removed using `drop_duplicates()` on payment_id (kept last) |
+| Inconsistent payment status | Converted to uppercase |
+| Invalid order references | Inner join with order_id |
 
